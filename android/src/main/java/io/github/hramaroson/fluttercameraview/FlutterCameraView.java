@@ -212,7 +212,7 @@ public class FlutterCameraView implements PlatformView, MethodCallHandler,
         final int maxHeight = methodCall.argument("maxHeight");
         SizeSelector width = SizeSelectors.maxWidth(maxWidth);
         SizeSelector height = SizeSelectors.maxHeight(maxHeight);
-        mCameraView.setPictureSize(SizeSelectors.maxHeight(maxHeight));
+        mCameraView.setPictureSize(SizeSelectors.and(width, height));
         result.success (true);
     }
 
