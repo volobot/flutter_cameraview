@@ -126,6 +126,18 @@ class CameraViewController {
       throw CameraException(e.code, e.message);
     } 
   }
+  Future<bool> setPictureSize(int maxWidth,int maxHeight) async {
+    try {
+      bool _set = await _channel.invokeMethod('setPictureSize',<String, dynamic>{
+        'maxWidth': maxWidth,
+        'maxHeight': maxHeight,
+      });
+      return _set;
+    } on PlatformException catch (e){
+      throw CameraException(e.code, e.message);
+      return false;
+    }
+  }
 
   Future<String> takePicture([String filePath = '']) async {
     String _filePath = filePath;
