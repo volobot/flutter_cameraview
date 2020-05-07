@@ -208,12 +208,10 @@ public class FlutterCameraView implements PlatformView, MethodCallHandler,
         result.success (mCapturedPictureFilePath);
     }
     private void setPictureSize(MethodCall methodCall, MethodChannel.Result result) {
-        mCapturedPictureFilePath = (String) methodCall.arguments;
         final int maxWidth = methodCall.argument("maxWidth");
         final int maxHeight = methodCall.argument("maxHeight");
-        SizeSelector width = SizeSelectors.minWidth(maxWidth);
         SizeSelector height = SizeSelectors.minHeight(maxHeight);
-        mCameraView.setPictureSize(SizeSelectors.and(width, height));
+        mCameraView.setPictureSize(SizeSelectors.maxWidth(1280));
         result.success (true);
     }
 
