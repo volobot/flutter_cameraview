@@ -143,10 +143,10 @@ class CameraViewController {
     String _filePath = filePath;
     if(_filePath.isEmpty) { //no filePath provided, use the default one.
       if(!Platform.isIOS) {
-          Directory directory = await getExternalStorageDirectory();
+          Directory directory = await getTemporaryDirectory();
           _filePath = directory.path;
           if(Platform.isAndroid) {
-              _filePath = p.join(_filePath, "DCIM","Camera");
+              _filePath = p.join(_filePath);
               Directory(_filePath).create(recursive: true);
               DateTime now = DateTime.now();
               _filePath = p.join(_filePath, sprintf("IMG_%d%02d%02d_%02d%02d%02d.jpg", 
