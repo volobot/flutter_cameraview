@@ -14,6 +14,8 @@ import com.otaliastudios.cameraview.Audio;
 import com.otaliastudios.cameraview.Flash;
 import com.otaliastudios.cameraview.Facing;
 import com.otaliastudios.cameraview.Mode;
+import com.otaliastudios.cameraview.SizeSelector;
+import com.otaliastudios.cameraview.SizeSelectors;
 
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
@@ -43,6 +45,7 @@ public class FlutterCameraView implements PlatformView, MethodCallHandler,
         
         mCameraView.open();
         mCameraView.setMode(Mode.PICTURE);
+
         mCameraView.addCameraListener(new CameraListener() {
             @Override
             public void onPictureTaken(PictureResult result) { onPicture(result);}
@@ -74,6 +77,8 @@ public class FlutterCameraView implements PlatformView, MethodCallHandler,
                 break;
             case "takePicture":
                 takePicture(methodCall, result);
+            case "setPictureSize":
+                setPictureSize(methodCall, result);
                 break;
             default:
                 result.notImplemented();
@@ -201,6 +206,15 @@ public class FlutterCameraView implements PlatformView, MethodCallHandler,
 
         mCameraView.takePicture();
         result.success (mCapturedPictureFilePath);
+    }
+    private void setPictureSize(MethodCall methodCall, MethodChannel.Result result) {
+        mCapturedPictureFilePath = (String) methodCall.arguments;
+        final int maxWidth = call.argument("maxWidth");
+        final int maxHeight = call.argument("maxHeight");
+        SizeSelector width = SizeSelectors.minWidth(maxWidth);
+        SizeSelector height = SizeSelectors.minHeight(maxHeight);
+        mCameraView.setPictureSize(SizeSelectors.and(width, height));
+        result.success (true);
     }
 
     private void onPicture(PictureResult result){
